@@ -1,0 +1,35 @@
+#include <fstream>
+
+std::ifstream fin("fill.in");
+std::ofstream fout("fill.out");
+
+bool A[101][101];
+int n, m;
+
+void fill(int i, int j){
+    if(!i || !j || i > n || j > m || !A[i][j])
+        return;
+
+    A[i][j] = 0;
+    fill(i + 1, j);
+    fill(i - 1, j);
+    fill(i, j + 1);
+    fill(i, j - 1);
+}
+
+int main() {
+
+    fin >> n >> m;
+
+    for (int i = 1; i <= n; ++i)
+        for (int j = 1; j <= m; ++j)
+            fin >> A[i][j];
+
+    int continente = 0;
+    for (int i = 1; i <= n; ++i)
+        for (int j = 1; j <= m; ++j)
+            if(A[i][j] == 1) fill(i, j), ++ continente;
+    
+    fout << continente;
+    return 0;
+}
